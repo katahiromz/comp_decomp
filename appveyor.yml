@@ -14,18 +14,22 @@ environment:
       BUILDER: CMake
       GENERATOR: "Visual Studio 15 2017"
       APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2017
+      MSVC_VER: 15
     - PLATFORM: x64
       BUILDER: CMake
       GENERATOR: "Visual Studio 15 2017 Win64"
       APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2017
+      MSVC_VER: 15
     - PLATFORM: x86
       BUILDER: CMake
       GENERATOR: "Visual Studio 14 2015"
       APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
+      MSVC_VER: 14
     - PLATFORM: x64
       BUILDER: CMake
       GENERATOR: "Visual Studio 14 2015 Win64"
       APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
+      MSVC_VER: 14
 configuration:
   - Release
 

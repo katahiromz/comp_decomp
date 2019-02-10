@@ -71,7 +71,10 @@ if (ZLIB_FOUND)
 else()
     message(STATUS "ZLIB not found.")
 endif()
-#add_definitions(-DZLIB_DLL)  # dynamic
+option(USE_DLL_ZLIB "Use DLL ZLIB", OFF)
+if (USE_DLL_ZLIB)
+    add_definitions(-DZLIB_DLL)  # dynamic
+endif()
 
 # bzip2
 find_package(BZip2)
@@ -92,7 +95,10 @@ if (LIBLZMA_FOUND)
 else()
     message(STATUS "LZMA not found.")
 endif()
-add_definitions(-DLZMA_API_STATIC)  # static
+option(USE_STATIC_LZMA "Use static LZMA", ON)
+if (USE_STATIC_LZMA)
+    add_definitions(-DLZMA_API_STATIC)  # static
+endif()
 
 # executable
 add_executable(comp_decomp_test comp_decomp_test.cpp)

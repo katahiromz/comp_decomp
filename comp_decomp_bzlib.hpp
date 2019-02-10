@@ -88,9 +88,9 @@
 
         bz_stream strm;
         memset(&strm, 0, sizeof(strm));
-        strm.bzalloc = Z_NULL;
-        strm.bzfree = Z_NULL;
-        strm.opaque = Z_NULL;
+        strm.bzalloc = NULL;
+        strm.bzfree = NULL;
+        strm.opaque = NULL;
         strm.next_in = (char *)input;
         strm.avail_in = input_size;
         int ret = BZ2_bzDecompressInit(&strm, 0, 0);
@@ -123,7 +123,7 @@
 
         output.resize(output.size() - strm.avail_out);
 
-        return BZ2_bzDecompressEnd(&strm) == Z_OK;
+        return BZ2_bzDecompressEnd(&strm) == BZ_OK;
     }
 
     inline bool bzlib_test_entry(const std::string& original)

@@ -34,17 +34,17 @@ before_build:
   - set CTEST_OUTPUT_ON_FAILURE=1
   - git clone https://github.com/madler/zlib
   - cd zlib
-  - cmake --build -G "%GENERATOR%" -DCMAKE_BUILD_TYPE=%CONFIGURATION% .
+  - cmake --build . -G "%GENERATOR%" -DCMAKE_BUILD_TYPE=%CONFIGURATION%
   - cmake --target install
   - cd ..
   - git clone https://github.com/osrf/bzip2_cmake
   - cd bzip2_cmake
-  - cmake --build -G "%GENERATOR%" -DCMAKE_BUILD_TYPE=%CONFIGURATION% .
+  - cmake --build . -G "%GENERATOR%" -DCMAKE_BUILD_TYPE=%CONFIGURATION%
   - cmake --target install
   - cd ..
   - git clone https://github.com/lloyd/easylzma
   - cd easylzma
-  - cmake --build -G "%GENERATOR%" -DCMAKE_BUILD_TYPE=%CONFIGURATION% .
+  - cmake --build . -G "%GENERATOR%" -DCMAKE_BUILD_TYPE=%CONFIGURATION%
   - cmake --target install
   - cd ..
   - cmake -G "%GENERATOR%" -DCMAKE_BUILD_TYPE=%CONFIGURATION% %APPVEYOR_BUILD_FOLDER%

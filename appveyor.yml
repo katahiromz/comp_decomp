@@ -33,12 +33,11 @@ configuration:
 before_build:
   - set CTEST_OUTPUT_ON_FAILURE=1
   - set ZLIB_VER_DOT=1.2.8
+  - ps: appveyor DownloadFile "https://github.com/madler/zlib/archive/v${env:ZLIB_VER_DOT}.zip" -FileName "zlib.zip"
+  - 7z x zlib.zip
+  - ps: Rename-Item -path "zlib-${env:ZLIB_VER_DOT}" -newName "zlib"
+  - cd zlib
   - ps: >-
-    appveyor DownloadFile "https://github.com/madler/zlib/archive/v${env:ZLIB_VER_DOT}.zip" -FileName "zlib.zip"
-    7z x zlib.zip
-    Rename-Item -path "zlib-${env:ZLIB_VER_DOT}" -newName "zlib"
-  - ps: >-
-    cd zlib
     (Get-Content win32/Makefile.msc).replace('-MD', '-MT') | Set-Content win32/Makefile.msc
     If ($env:Platform -Match "x86") {
        nmake -f win32/Makefile.msc LOC="-DASMV -DASMINF" OBJA="inffas32.obj match686.obj" zlib.lib

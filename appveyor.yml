@@ -34,7 +34,11 @@ before_build:
   - set CTEST_OUTPUT_ON_FAILURE=1
   - git clone https://github.com/madler/zlib
   - cd zlib
-  - cmake --target install -G "%GENERATOR%" -DCMAKE_BUILD_TYPE=%CONFIGURATION% %APPVEYOR_BUILD_FOLDER%
+  - cmake --target install -G "%GENERATOR%" -DCMAKE_BUILD_TYPE=%CONFIGURATION% .
+  - cd ..
+  - git clone https://github.com/osrf/bzip2_cmake
+  - cd bzip2_cmake
+  - cmake --target install -G "%GENERATOR%" -DCMAKE_BUILD_TYPE=%CONFIGURATION% .
   - cd ..
   - cmake -G "%GENERATOR%" -DCMAKE_BUILD_TYPE=%CONFIGURATION% %APPVEYOR_BUILD_FOLDER%
 

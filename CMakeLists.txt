@@ -100,6 +100,10 @@ target_link_libraries(
     comp_decomp_test
     ${ZLIB_LIBRARIES} ${BZIP2_LIBRARIES} ${LIBLZMA_LIBRARIES})
 
+# threading
+find_package(Threads REQUIRED)
+target_link_libraries(comp_decomp_test Threads::Threads)
+
 # add test
 add_test(NAME comp_decomp_test
          COMMAND $<TARGET_FILE:comp_decomp_test>)

@@ -15,7 +15,7 @@
 
 // bool zlib_compress(std::string& output, const void *input, size_t input_size, int rate = 9);
 // bool zlib_decompress(std::string& output, const void *input, size_t input_size);
-// bool zlib_test(void);   // unit test
+// bool zlib_unittest(void);
 
 #ifdef HAVE_ZLIB
     #include <zlib.h>
@@ -157,8 +157,7 @@
     #define COMP_DECOMP_TEST_COUNT 100
 #endif
 
-    // unit test
-    inline bool zlib_test(void)
+    inline bool zlib_unittest(void)
     {
         std::string original;
         if (!zlib_test_entry(original))

@@ -15,7 +15,7 @@
 
 // bool bzlib_compress(std::string& output, const void *input, size_t input_size, int rate = 9);
 // bool bzlib_decompress(std::string& output, const void *input, size_t input_size);
-// bool bzlib_test(void);   // unit test
+// bool bzlib_unittest(void);
 
 #ifdef HAVE_BZLIB
     #include <bzlib.h>
@@ -147,8 +147,7 @@
     #define COMP_DECOMP_TEST_COUNT 100
 #endif
 
-    // unit test
-    inline bool bzlib_test(void)
+    inline bool bzlib_unittest(void)
     {
         std::string original;
         if (!bzlib_test_entry(original))

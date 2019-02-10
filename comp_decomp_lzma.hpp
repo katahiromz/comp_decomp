@@ -15,7 +15,7 @@
 
 // bool lzma_compress(std::string& output, const void *input, size_t input_size, int rate = 9);
 // bool lzma_decompress(std::string& output, const void *input, size_t input_size);
-// bool lzma_test(void);   // unit test
+// bool lzma_unittest(void);
 
 #ifdef HAVE_LZMA
     #include <lzma.h>
@@ -152,8 +152,7 @@
     #define COMP_DECOMP_TEST_COUNT 100
 #endif
 
-    // unit test
-    inline bool lzma_test(void)
+    inline bool lzma_unittest(void)
     {
         std::string original;
         if (!lzma_test_entry(original))

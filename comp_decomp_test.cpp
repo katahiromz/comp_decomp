@@ -5,7 +5,6 @@
 #include <chrono>
 #include <ctime>
 #define COMP_DECOMP_BUFFSIZE 100
-#define COMP_DECOMP_COMPRESSION_RATE 9
 #include "comp_decomp.hpp"
 
 namespace cr = std::chrono;
@@ -23,7 +22,7 @@ void f1(void)
     printf("rand(): %d\n", std::rand());
 
     auto time1 = my_clock::now();
-    bool ret = zlib_test();
+    bool ret = zlib_unittest();
     auto time2 = my_clock::now();
     auto diff = time2 - time1;
     auto ms = cr::duration_cast<cr::milliseconds>(diff);
@@ -44,7 +43,7 @@ void f2(void)
     printf("rand(): %d\n", std::rand());
 
     auto time1 = my_clock::now();
-    bool ret = bzlib_test();
+    bool ret = bzlib_unittest();
     auto time2 = my_clock::now();
     auto diff = time2 - time1;
     auto ms = cr::duration_cast<cr::milliseconds>(diff);
@@ -65,7 +64,7 @@ void f3(void)
     printf("rand(): %d\n", std::rand());
 
     auto time1 = my_clock::now();
-    bool ret = lzma_test();
+    bool ret = lzma_unittest();
     auto time2 = my_clock::now();
     auto diff = time2 - time1;
     auto ms = cr::duration_cast<cr::milliseconds>(diff);

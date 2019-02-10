@@ -25,6 +25,9 @@
     #error compression rate is invalid.
 #endif
 
+// bool bzlib_compress(std::string& output, const void *input, size_t input_size);
+// bool bzlib_decompress(std::string& output, const void *input, size_t input_size);
+
 #ifdef HAVE_BZLIB
     #include <bzlib.h>
 

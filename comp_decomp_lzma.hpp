@@ -25,6 +25,9 @@
     #error compression rate is invalid.
 #endif
 
+// bool lzma_compress(std::string& output, const void *input, size_t input_size);
+// bool lzma_decompress(std::string& output, const void *input, size_t input_size);
+
 #ifdef HAVE_LZMA
     #include <lzma.h>
 

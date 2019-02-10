@@ -25,6 +25,9 @@
     #error compression rate is invalid.
 #endif
 
+// bool zlib_compress(std::string& output, const void *input, size_t input_size);
+// bool zlib_decompress(std::string& output, const void *input, size_t input_size);
+
 #ifdef HAVE_ZLIB
     #include <zlib.h>
 

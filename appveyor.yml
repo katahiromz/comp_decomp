@@ -32,6 +32,7 @@ configuration:
 
 before_build:
   - set CTEST_OUTPUT_ON_FAILURE=1
+  - set PATH=%PATH:C:\Program Files (x86)\Git\bin;=%.
   - git clone https://github.com/madler/zlib
   - cd zlib
   - cmake --build . -DCMAKE_BUILD_TYPE=%CONFIGURATION%

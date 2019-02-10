@@ -58,32 +58,32 @@ before_build:
   - if %PLATFORM%==x64 vcpkg install liblzma:x64-windows
   - vcpkg integrate install
 
-  - git clone https://github.com/katahiromz/zlib
-  - cd zlib
-  - cmake -G "%GENERATOR%" -DCMAKE_BUILD_TYPE=%CONFIGURATION% -DCMAKE_GENERATOR_PLATFORM=%PLATFORM% .
-  - cmake --build . --target INSTALL --config Release
-  - set PATH=%PATH%;C:/Program Files/zlib/bin;C:/Program Files (x86)/zlib/bin
-  - set INCLUDE=%INCLUDE%;C:/Program Files/zlib/include;C:/Program Files (x86)/zlib/include
-  - set LIB=%LIB%;C:/Program Files/zlib/lib;C:/Program Files (x86)/zlib/lib
-  - cd ..
-
-  - git clone https://github.com/katahiromz/bzip2_cmake
-  - cd bzip2_cmake
-  - cmake -G "%GENERATOR%" -DCMAKE_BUILD_TYPE=%CONFIGURATION% -DCMAKE_GENERATOR_PLATFORM=%PLATFORM% .
-  - cmake --build . --target INSTALL --config Release
-  - set INCLUDE=%INCLUDE%;C:/Program Files/bzip2/include;C:/Program Files (x86)/bzip2/include
-  - set LIB=%LIB%;C:/Program Files/bzip2/lib;C:/Program Files (x86)/bzip2/lib
-  - set CMAKE_PREFIX_PATH=%CMAKE_PREFIX_PATH%;C:/Program Files/bzip2/share/bzip2/cmake;C:/Program Files (x86)/bzip2/share/bzip2/cmake
-  - cd ..
-
-  - git clone https://github.com/katahiromz/xz
-  - cd xz
-  - cmake -G "%GENERATOR%" -DCMAKE_BUILD_TYPE=%CONFIGURATION% -DCMAKE_GENERATOR_PLATFORM=%PLATFORM% .
-  - cmake --build . --target INSTALL --config Release
-  - set INCLUDE=%INCLUDE%;C:/Program Files/xz/include;C:/Program Files (x86)/xz/include
-  - set LIB=%LIB%;C:/Program Files/xz/lib;C:/Program Files (x86)/xz/lib
-  - set CMAKE_PREFIX_PATH=%CMAKE_PREFIX_PATH%;C:/Program Files/xz/lib/cmake/xz;C:/Program Files (x86)/xz/lib/cmake/xz
-  - cd ..
+  #- git clone https://github.com/katahiromz/zlib
+  #- cd zlib
+  #- cmake -G "%GENERATOR%" -DCMAKE_BUILD_TYPE=%CONFIGURATION% -DCMAKE_GENERATOR_PLATFORM=%PLATFORM% .
+  #- cmake --build . --target INSTALL --config Release
+  #- set PATH=%PATH%;C:/Program Files/zlib/bin;C:/Program Files (x86)/zlib/bin
+  #- set INCLUDE=%INCLUDE%;C:/Program Files/zlib/include;C:/Program Files (x86)/zlib/include
+  #- set LIB=%LIB%;C:/Program Files/zlib/lib;C:/Program Files (x86)/zlib/lib
+  #- cd ..
+  #
+  #- git clone https://github.com/katahiromz/bzip2_cmake
+  #- cd bzip2_cmake
+  #- cmake -G "%GENERATOR%" -DCMAKE_BUILD_TYPE=%CONFIGURATION% -DCMAKE_GENERATOR_PLATFORM=%PLATFORM% .
+  #- cmake --build . --target INSTALL --config Release
+  #- set INCLUDE=%INCLUDE%;C:/Program Files/bzip2/include;C:/Program Files (x86)/bzip2/include
+  #- set LIB=%LIB%;C:/Program Files/bzip2/lib;C:/Program Files (x86)/bzip2/lib
+  #- set CMAKE_PREFIX_PATH=%CMAKE_PREFIX_PATH%;C:/Program Files/bzip2/share/bzip2/cmake;C:/Program Files (x86)/bzip2/share/bzip2/cmake
+  #- cd ..
+  #
+  #- git clone https://github.com/katahiromz/xz
+  #- cd xz
+  #- cmake -G "%GENERATOR%" -DCMAKE_BUILD_TYPE=%CONFIGURATION% -DCMAKE_GENERATOR_PLATFORM=%PLATFORM% .
+  #- cmake --build . --target INSTALL --config Release
+  #- set INCLUDE=%INCLUDE%;C:/Program Files/xz/include;C:/Program Files (x86)/xz/include
+  #- set LIB=%LIB%;C:/Program Files/xz/lib;C:/Program Files (x86)/xz/lib
+  #- set CMAKE_PREFIX_PATH=%CMAKE_PREFIX_PATH%;C:/Program Files/xz/lib/cmake/xz;C:/Program Files (x86)/xz/lib/cmake/xz
+  #- cd ..
 
   - cmake -DCMAKE_TOOLCHAIN_FILE=c:/tools/vcpkg/scripts/buildsystems/vcpkg.cmake -G "%GENERATOR%" -DCMAKE_BUILD_TYPE=%CONFIGURATION% %APPVEYOR_BUILD_FOLDER%
 

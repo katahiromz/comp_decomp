@@ -35,17 +35,20 @@ before_build:
   - set PATH=%PATH:C:\Program Files (x86)\Git\bin;=%.
   - git clone https://github.com/madler/zlib
   - cd zlib
-  - cmake --build . -- -G "%GENERATOR%" -DCMAKE_BUILD_TYPE=%CONFIGURATION%
+  - cmake .
+  - cmake --build
   - cmake --target install
   - cd ..
   - git clone https://github.com/osrf/bzip2_cmake
   - cd bzip2_cmake
-  - cmake --build . -- -G "%GENERATOR%" -DCMAKE_BUILD_TYPE=%CONFIGURATION%
+  - cmake .
+  - cmake --build
   - cmake --target install
   - cd ..
   - git clone https://github.com/lloyd/easylzma
   - cd easylzma
-  - cmake --build . -- -G "%GENERATOR%" -DCMAKE_BUILD_TYPE=%CONFIGURATION%
+  - cmake .
+  - cmake --build
   - cmake --target install
   - cd ..
   - cmake -G "%GENERATOR%" -DCMAKE_BUILD_TYPE=%CONFIGURATION% %APPVEYOR_BUILD_FOLDER%

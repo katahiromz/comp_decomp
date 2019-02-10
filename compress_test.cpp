@@ -1,8 +1,8 @@
 #include <cassert>
 #include <thread>
 #include <chrono>
-#define COMP_DECOMP_BUFFSIZE 1024
-
+#define COMP_DECOMP_BUFFSIZE 100
+#define COMP_DECOMP_COMPRESSION_RATE 9
 #include "comp_decomp.hpp"
 
 namespace cr = std::chrono;

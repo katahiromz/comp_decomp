@@ -11,14 +11,15 @@
     #define COMP_DECOMP_COMPRESSION_RATE 9
 #endif
 
-#ifndef COMP_DECOMP_MIN_TEST
-    #define COMP_DECOMP_MIN_TEST 0
-#endif
 #ifndef COMP_DECOMP_MAX_TEST
     #define COMP_DECOMP_MAX_TEST 100
 #endif
 #ifndef COMP_DECOMP_TEST_COUNT
     #define COMP_DECOMP_TEST_COUNT 100
+#endif
+
+#if !(1 <= COMP_DECOMP_COMPRESSION_RATE && COMP_DECOMP_COMPRESSION_RATE <= 9)
+    #error compression rate is invalid.
 #endif
 
 #ifdef HAVE_LZMA
@@ -160,8 +161,7 @@
 
         for (size_t i = 0; i < COMP_DECOMP_TEST_COUNT; ++i)
         {
-            int len = COMP_DECOMP_MIN_TEST;
-            len += std::rand() % (COMP_DECOMP_MAX_TEST - COMP_DECOMP_MIN_TEST);
+            int len = std::rand() % COMP_DECOMP_MAX_TEST;
             original.resize(len);
             for (size_t k = 0; k < len; ++k)
             {

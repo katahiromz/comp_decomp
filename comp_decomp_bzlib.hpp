@@ -1,12 +1,8 @@
 #ifndef COMP_DECOMP_BZLIB_HPP_
 #define COMP_DECOMP_BZLIB_HPP_
 
-#undef min
-
 #include <cstdlib>
-#include <cstdint>
 #include <string>
-#include <algorithm>
 
 #ifndef COMP_DECOMP_BUFFSIZE
     #define COMP_DECOMP_BUFFSIZE (8 * 1024)

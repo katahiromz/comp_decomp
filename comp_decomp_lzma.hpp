@@ -1,12 +1,8 @@
 #ifndef COMP_DECOMP_LZMA_HPP_
 #define COMP_DECOMP_LZMA_HPP_
 
-#undef min
-
 #include <cstdlib>
-#include <cstdint>
 #include <string>
-#include <algorithm>
 
 #ifndef COMP_DECOMP_BUFFSIZE
     #define COMP_DECOMP_BUFFSIZE (8 * 1024)
@@ -51,7 +47,10 @@
             if (strm.avail_in == 0)
             {
                 strm.next_in = (const uint8_t *)inbuf;
-                strm.avail_in = std::min(remainder, (size_t)COMP_DECOMP_BUFFSIZE);
+                if (remainder < COMP_DECOMP_BUFFSIZE)
+                    strm.avail_in = remainder;
+                else
+                    strm.avail_in = COMP_DECOMP_BUFFSIZE;
                 memcpy(inbuf, ptr, strm.avail_in);
                 ptr += strm.avail_in;
                 remainder -= strm.avail_in;
@@ -99,7 +98,10 @@
             if (strm.avail_in == 0)
             {
                 strm.next_in = inbuf;
-                strm.avail_in = std::min(remainder, (size_t)COMP_DECOMP_BUFFSIZE);
+                if (remainder < COMP_DECOMP_BUFFSIZE)
+                    strm.avail_in = remainder;
+                else
+                    strm.avail_in = COMP_DECOMP_BUFFSIZE;
                 memcpy(inbuf, ptr, strm.avail_in);
                 ptr += strm.avail_in;
                 remainder -= strm.avail_in;

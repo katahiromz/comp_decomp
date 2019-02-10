@@ -31,9 +31,7 @@ configuration:
 
 before_build:
   - set CTEST_OUTPUT_ON_FAILURE=1
-  - choco install zlib
-  - choco install bz2
-  - choco install lzma
+  - choco install xdelta3
   - cmake.exe -G "%GENERATOR%" -DCMAKE_BUILD_TYPE=%CONFIGURATION% %APPVEYOR_BUILD_FOLDER%
 
 build_script:

@@ -155,6 +155,7 @@
         return true;
     }
 
+    // unit test
     inline bool lzma_test(void)
     {
         std::string original;

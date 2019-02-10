@@ -150,6 +150,7 @@
         return true;
     }
 
+    // unit test
     inline bool bzlib_test(void)
     {
         std::string original;

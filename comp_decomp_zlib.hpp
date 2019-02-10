@@ -160,6 +160,7 @@
         return true;
     }
 
+    // unit test
     inline bool zlib_test(void)
     {
         std::string original;

@@ -104,4 +104,7 @@ target_link_libraries(
 add_test(NAME comp_decomp_test
          COMMAND $<TARGET_FILE:comp_decomp_test>)
 
+# C++11
+set_property(TARGET comp_decomp_test PROPERTY CXX_STANDARD 11)
+
 ##############################################################################

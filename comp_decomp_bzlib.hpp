@@ -7,6 +7,7 @@
 #include <cstdlib>
 #include <cstdio>
 #include <cassert>
+#include <cstring>
 #include <string>
 
 #ifndef COMP_DECOMP_BUFFSIZE

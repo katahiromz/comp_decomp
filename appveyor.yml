@@ -38,7 +38,7 @@ before_build:
   - ps: Rename-Item -path "zlib-${env:ZLIB_VER_DOT}" -newName "zlib"
   - cd zlib
   - ps: (Get-Content win32/Makefile.msc).replace('-MD', '-MT') | Set-Content win32/Makefile.msc
-  - ps:
+  - ps: >-
     If ($env:Platform -Match "x86") {
        nmake -f win32/Makefile.msc LOC="-DASMV -DASMINF" OBJA="inffas32.obj match686.obj" zlib.lib
     } Else {

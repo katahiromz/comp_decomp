@@ -6,37 +6,25 @@
 
 #include <cstdlib>
 #include <cstdio>
+#include <cassert>
 #include <string>
 
 #ifndef COMP_DECOMP_BUFFSIZE
     #define COMP_DECOMP_BUFFSIZE (8 * 1024)
 #endif
-#ifndef COMP_DECOMP_COMPRESSION_RATE
-    #define COMP_DECOMP_COMPRESSION_RATE 9
-#endif
 
-#ifndef COMP_DECOMP_MAX_TEST
-    #define COMP_DECOMP_MAX_TEST 100
-#endif
-#ifndef COMP_DECOMP_TEST_COUNT
-    #define COMP_DECOMP_TEST_COUNT 100
-#endif
-
-#if !(1 <= COMP_DECOMP_COMPRESSION_RATE && COMP_DECOMP_COMPRESSION_RATE <= 9)
-    #error compression rate is invalid.
-#endif
-
-// bool zlib_compress(std::string& output, const void *input, size_t input_size);
+// bool zlib_compress(std::string& output, const void *input, size_t input_size, int rate = 9);
 // bool zlib_decompress(std::string& output, const void *input, size_t input_size);
 // bool zlib_test(void);   // unit test
 
 #ifdef HAVE_ZLIB
     #include <zlib.h>
 
-    inline bool zlib_compress(std::string& output, const void *input, size_t input_size)
+    inline bool zlib_compress(std::string& output, const void *input, size_t input_size, int rate = 9)
     {
         const Bytef *ptr = (const Bytef *)input;
         size_t remainder = input_size;
+        assert(1 <= rate && rate <= 9);
 
         output.clear();
         output.reserve(input_size * 2 / 3);
@@ -48,7 +36,7 @@
         strm.zalloc = Z_NULL;
         strm.zfree = Z_NULL;
         strm.opaque = Z_NULL;
-        int ret = deflateInit(&strm, COMP_DECOMP_COMPRESSION_RATE);
+        int ret = deflateInit(&strm, rate);
 
         strm.next_in = NULL;
         strm.avail_in = 0;
@@ -161,6 +149,13 @@
         }
         return true;
     }
+
+#ifndef COMP_DECOMP_MAX_TEST
+    #define COMP_DECOMP_MAX_TEST 100
+#endif
+#ifndef COMP_DECOMP_TEST_COUNT
+    #define COMP_DECOMP_TEST_COUNT 100
+#endif
 
     // unit test
     inline bool zlib_test(void)

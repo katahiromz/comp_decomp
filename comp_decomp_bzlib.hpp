@@ -6,38 +6,26 @@
 
 #include <cstdlib>
 #include <cstdio>
+#include <cassert>
 #include <string>
 
 #ifndef COMP_DECOMP_BUFFSIZE
     #define COMP_DECOMP_BUFFSIZE (8 * 1024)
 #endif
-#ifndef COMP_DECOMP_COMPRESSION_RATE
-    #define COMP_DECOMP_COMPRESSION_RATE 9
-#endif
 
-#ifndef COMP_DECOMP_MAX_TEST
-    #define COMP_DECOMP_MAX_TEST 100
-#endif
-#ifndef COMP_DECOMP_TEST_COUNT
-    #define COMP_DECOMP_TEST_COUNT 100
-#endif
-
-#if !(1 <= COMP_DECOMP_COMPRESSION_RATE && COMP_DECOMP_COMPRESSION_RATE <= 9)
-    #error compression rate is invalid.
-#endif
-
-// bool bzlib_compress(std::string& output, const void *input, size_t input_size);
+// bool bzlib_compress(std::string& output, const void *input, size_t input_size, int rate = 9);
 // bool bzlib_decompress(std::string& output, const void *input, size_t input_size);
 // bool bzlib_test(void);   // unit test
 
 #ifdef HAVE_BZLIB
     #include <bzlib.h>
 
-    inline bool bzlib_compress(std::string& output, const void *input, size_t input_size)
+    inline bool bzlib_compress(std::string& output, const void *input, size_t input_size, int rate = 9)
     {
         output.clear();
         output.reserve(input_size * 2 / 3);
         static char inbuf[COMP_DECOMP_BUFFSIZE];
+        assert(1 <= rate && rate <= 9);
 
         bz_stream strm;
         memset(&strm, 0, sizeof(strm));
@@ -47,7 +35,7 @@
         strm.next_in = (char *)input;
         strm.avail_in = input_size;
 
-        int ret = BZ2_bzCompressInit(&strm, COMP_DECOMP_COMPRESSION_RATE, 0, 0);
+        int ret = BZ2_bzCompressInit(&strm, rate, 0, 0);
         if (ret != BZ_OK)
             return false;
 
@@ -151,6 +139,13 @@
         }
         return true;
     }
+
+#ifndef COMP_DECOMP_MAX_TEST
+    #define COMP_DECOMP_MAX_TEST 100
+#endif
+#ifndef COMP_DECOMP_TEST_COUNT
+    #define COMP_DECOMP_TEST_COUNT 100
+#endif
 
     // unit test
     inline bool bzlib_test(void)

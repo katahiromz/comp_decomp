@@ -6,37 +6,25 @@
 
 #include <cstdlib>
 #include <cstdio>
+#include <cassert>
 #include <string>
 
 #ifndef COMP_DECOMP_BUFFSIZE
     #define COMP_DECOMP_BUFFSIZE (8 * 1024)
 #endif
-#ifndef COMP_DECOMP_COMPRESSION_RATE
-    #define COMP_DECOMP_COMPRESSION_RATE 9
-#endif
 
-#ifndef COMP_DECOMP_MAX_TEST
-    #define COMP_DECOMP_MAX_TEST 100
-#endif
-#ifndef COMP_DECOMP_TEST_COUNT
-    #define COMP_DECOMP_TEST_COUNT 100
-#endif
-
-#if !(1 <= COMP_DECOMP_COMPRESSION_RATE && COMP_DECOMP_COMPRESSION_RATE <= 9)
-    #error compression rate is invalid.
-#endif
-
-// bool lzma_compress(std::string& output, const void *input, size_t input_size);
+// bool lzma_compress(std::string& output, const void *input, size_t input_size, int rate = 9);
 // bool lzma_decompress(std::string& output, const void *input, size_t input_size);
 // bool lzma_test(void);   // unit test
 
 #ifdef HAVE_LZMA
     #include <lzma.h>
 
-    inline bool lzma_compress(std::string& output, const void *input, size_t input_size)
+    inline bool lzma_compress(std::string& output, const void *input, size_t input_size, int rate = 9)
     {
         const uint8_t *ptr = (const uint8_t *)input;
         size_t remainder = input_size;
+        assert(1 <= rate && rate <= 9);
 
         output.clear();
         output.reserve(input_size * 2 / 3);
@@ -44,7 +32,7 @@
         static uint8_t outbuf[COMP_DECOMP_BUFFSIZE];
 
         lzma_stream strm = LZMA_STREAM_INIT;
-        lzma_ret ret = lzma_easy_encoder(&strm, COMP_DECOMP_COMPRESSION_RATE, LZMA_CHECK_CRC64);
+        lzma_ret ret = lzma_easy_encoder(&strm, rate, LZMA_CHECK_CRC64);
 
         strm.next_in = NULL;
         strm.avail_in = 0;
@@ -156,6 +144,13 @@
         }
         return true;
     }
+
+#ifndef COMP_DECOMP_MAX_TEST
+    #define COMP_DECOMP_MAX_TEST 100
+#endif
+#ifndef COMP_DECOMP_TEST_COUNT
+    #define COMP_DECOMP_TEST_COUNT 100
+#endif
 
     // unit test
     inline bool lzma_test(void)

@@ -32,7 +32,8 @@ configuration:
 
 before_build:
   - set CTEST_OUTPUT_ON_FAILURE=1
-  - cinst install xdelta3
+  - nuget install zlib-msvc14-%PLATFORM%-master -Version 1.2.8.4 -Source https://ci.appveyor.com/nuget/zlib-shallow-x0n34b3pfq1b
+  - powershell -Command "move zlib*\* . -force"
   - cmake.exe -G "%GENERATOR%" -DCMAKE_BUILD_TYPE=%CONFIGURATION% %APPVEYOR_BUILD_FOLDER%
 
 build_script:

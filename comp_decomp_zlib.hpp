@@ -7,17 +7,17 @@
 #ifndef COMP_DECOMP_BUFFSIZE
     #define COMP_DECOMP_BUFFSIZE (8 * 1024)
 #endif
-#ifndef COMP_DECOM_MIN_TEST
-    #define COMP_DECOM_MIN_TEST 0
+#ifndef COMP_DECOMP_MIN_TEST
+    #define COMP_DECOMP_MIN_TEST 0
 #endif
-#ifndef COMP_DECOM_MAX_TEST
-    #define COMP_DECOM_MAX_TEST 100
+#ifndef COMP_DECOMP_MAX_TEST
+    #define COMP_DECOMP_MAX_TEST 100
 #endif
-#ifndef COMP_DECOM_TEST_STEP
-    #define COMP_DECOM_TEST_STEP 10
+#ifndef COMP_DECOMP_TEST_STEP
+    #define COMP_DECOMP_TEST_STEP 10
 #endif
-#ifndef COMP_DECOM_COMPRESSION_RATE
-    #define COMP_DECOM_COMPRESSION_RATE 9
+#ifndef COMP_DECOMP_COMPRESSION_RATE
+    #define COMP_DECOMP_COMPRESSION_RATE 9
 #endif
 
 #ifdef HAVE_ZLIB
@@ -38,7 +38,7 @@
         strm.zalloc = Z_NULL;
         strm.zfree = Z_NULL;
         strm.opaque = Z_NULL;
-        int ret = deflateInit(&strm, COMP_DECOM_COMPRESSION_RATE);
+        int ret = deflateInit(&strm, COMP_DECOMP_COMPRESSION_RATE);
 
         strm.next_in = NULL;
         strm.avail_in = 0;
@@ -134,9 +134,9 @@
     inline bool zlib_test(void)
     {
         std::string original, encoded, decoded;
-        for (size_t len = COMP_DECOM_MIN_TEST;
-             len < COMP_DECOM_MAX_TEST;
-             len += COMP_DECOM_TEST_STEP)
+        for (size_t len = COMP_DECOMP_MIN_TEST;
+             len < COMP_DECOMP_MAX_TEST;
+             len += COMP_DECOMP_TEST_STEP)
         {
             original.resize(len);
             for (size_t k = 0; k < len; ++k)
@@ -161,7 +161,7 @@
         }
         for (size_t i = 0; i < 20; ++i)
         {
-            int len = COMP_DECOM_MIN_TEST + std::rand() % (COMP_DECOM_MAX_TEST - COMP_DECOM_MIN_TEST);
+            int len = COMP_DECOMP_MIN_TEST + std::rand() % (COMP_DECOMP_MAX_TEST - COMP_DECOMP_MIN_TEST);
             original.resize(len);
             for (size_t k = 0; k < len; ++k)
             {

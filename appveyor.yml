@@ -32,8 +32,22 @@ configuration:
 
 before_build:
   - set CTEST_OUTPUT_ON_FAILURE=1
-  - if "%PLATFORM%"=="x86" nuget install zlib-msvc14-x86 -Version 1.2.11.7795
-  - if "%PLATFORM%"=="x64" nuget install zlib-msvc14-x64 -Version 1.2.11.7795
+  - set ZLIB_VER_DOT=1.2.8
+  - ps: >-
+    If (!(Test-Path zlib.zip )) {
+      appveyor DownloadFile "https://github.com/madler/zlib/archive/v${env:ZLIB_VER_DOT}.zip" -FileName zlib.zip
+    }
+    7z x zlib.zip -oC:\
+    Rename-Item -path "c:\zlib-${env:ZLIB_VER_DOT}" -newName "zlib"
+  - ps: >-
+    cd C:\zlib
+    (Get-Content win32/Makefile.msc).replace('-MD', '-MT') | Set-Content win32/Makefile.msc
+    If ($env:Platform -Match "x86") {
+       nmake -f win32/Makefile.msc LOC="-DASMV -DASMINF" OBJA="inffas32.obj match686.obj" zlib.lib
+    } Else {
+       nmake -f win32/Makefile.msc AS=ml64 LOC="-DASMV -DASMINF -I." OBJA="inffasx64.obj gvmat64.obj inffas8664.obj" zlib.lib
+    }
+    $env:NMAKE_EXTRA="ZLIBSTATIC_DEF=/DENABLE_ZLIB_STATIC ${env:NMAKE_EXTRA}"
   - cmake.exe -G "%GENERATOR%" -DCMAKE_BUILD_TYPE=%CONFIGURATION% %APPVEYOR_BUILD_FOLDER%
   - nuget restore comp_decomp.sln
 

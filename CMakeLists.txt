@@ -90,11 +90,11 @@ else()
 endif()
 
 # executable
-add_executable(compress_test compress_test.cpp)
+add_executable(comp_decomp_test comp_decomp_test.cpp)
 
 # link
 target_link_libraries(
-    compress_test
+    comp_decomp_test
     ${ZLIB_LIBRARIES} ${BZIP2_LIBRARIES} ${LIBLZMA_LIBRARIES})
 
 ##############################################################################

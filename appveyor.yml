@@ -14,30 +14,25 @@ environment:
       BUILDER: CMake
       GENERATOR: "Visual Studio 15 2017"
       APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2017
-      tbs_tools: "msvc12"
     - PLATFORM: x64
       BUILDER: CMake
       GENERATOR: "Visual Studio 15 2017 Win64"
       APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2017
-      tbs_tools: "msvc12"
     - PLATFORM: x86
       BUILDER: CMake
       GENERATOR: "Visual Studio 14 2015"
       APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
-      tbs_tools: "msvc12"
     - PLATFORM: x64
       BUILDER: CMake
       GENERATOR: "Visual Studio 14 2015 Win64"
       APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
-      tbs_tools: "msvc12"
 configuration:
   - Debug
   - Release
 
 before_build:
   - set CTEST_OUTPUT_ON_FAILURE=1
-  - nuget install zlib-%tbs_tools%-%PLATFORM%-master -Source https://ci.appveyor.com/nuget/zlib-94hmpf3q011d
-  - choco install xdelta3
+  - cinst install xdelta3
   - cmake.exe -G "%GENERATOR%" -DCMAKE_BUILD_TYPE=%CONFIGURATION% %APPVEYOR_BUILD_FOLDER%
 
 build_script:

@@ -62,15 +62,6 @@ endif()
 # zlib
 find_package(ZLIB)
 include_directories(${ZLIB_INCLUDE_DIRS})
-
-# bzip2
-find_package(BZip2)
-include_directories(${BZIP2_INCLUDE_DIR})
-
-# lzma
-find_package(LibLZMA)
-include_directories(${LIBLZMA_INCLUDE_DIRS})
-
 if (ZLIB_FOUND)
     add_definitions(-DHAVE_ZLIB)
     message(STATUS "ZLIB found.")
@@ -78,6 +69,9 @@ else()
     message(STATUS "ZLIB not found.")
 endif()
 
+# bzip2
+find_package(BZip2)
+include_directories(${BZIP2_INCLUDE_DIR})
 if (BZIP2_FOUND)
     add_definitions(-DHAVE_BZLIB)
     message(STATUS "BZIP2 found")
@@ -85,6 +79,9 @@ else()
     message(STATUS "BZIP2 not found.")
 endif()
 
+# lzma
+find_package(LibLZMA)
+include_directories(${LIBLZMA_INCLUDE_DIRS})
 if (LIBLZMA_FOUND)
     add_definitions(-DHAVE_LZMA)
     message(STATUS "LZMA found")
@@ -96,6 +93,8 @@ endif()
 add_executable(compress_test compress_test.cpp)
 
 # link
-target_link_libraries(compress_test ${LIBLZMA_LIBRARIES} ${BZIP2_LIBRARIES} ${ZLIB_LIBRARIES})
+target_link_libraries(
+    compress_test
+    ${ZLIB_LIBRARIES} ${BZIP2_LIBRARIES} ${LIBLZMA_LIBRARIES})
 
 ##############################################################################

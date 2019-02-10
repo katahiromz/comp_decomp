@@ -6,6 +6,7 @@ skip_commits:
     - '*.md'
     - '.gitignore'
     - '.travis.yml'
+cache:
 matrix:
   fast_finish: true
 environment:
@@ -40,6 +41,7 @@ before_build:
   - set PATH=%PATH:C:\Program Files (x86)\Git\bin;=%.
   - set VisualStudioVersion=12.0
 
+  - rmdir /s /q zlib
   - git clone https://github.com/katahiromz/zlib
   - cd zlib
   - cmake -G "%GENERATOR%" -DCMAKE_BUILD_TYPE=%CONFIGURATION% -DCMAKE_GENERATOR_PLATFORM=%PLATFORM% .
@@ -49,6 +51,7 @@ before_build:
   - set LIB=%LIB%;C:/Program Files/zlib/lib;C:/Program Files (x86)/zlib/lib
   - cd ..
 
+  - rmdir /s /q bzip2_cmake
   - git clone https://github.com/katahiromz/bzip2_cmake
   - cd bzip2_cmake
   - cmake -G "%GENERATOR%" -DCMAKE_BUILD_TYPE=%CONFIGURATION% -DCMAKE_GENERATOR_PLATFORM=%PLATFORM% .
@@ -58,6 +61,7 @@ before_build:
   - set CMAKE_PREFIX_PATH=%CMAKE_PREFIX_PATH%;C:/Program Files/bzip2/share/bzip2/cmake;C:/Program Files (x86)/bzip2/share/bzip2/cmake
   - cd ..
 
+  - rmdir /s /q xz
   - git clone https://github.com/katahiromz/xz
   - cd xz
   - cmake -G "%GENERATOR%" -DCMAKE_BUILD_TYPE=%CONFIGURATION% -DCMAKE_GENERATOR_PLATFORM=%PLATFORM% .

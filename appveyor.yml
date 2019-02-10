@@ -31,9 +31,10 @@ configuration:
 
 before_build:
   - set CTEST_OUTPUT_ON_FAILURE=1
-  - apt-get --yes install zlib1g-dev
-  - apt-get --yes install libbz2-dev
-  - apt-get --yes install liblzma-dev
+  - sh: sudo apt-get update
+  - sh: sudo apt-get --yes install zlib1g-dev
+  - sh: sudo apt-get --yes install libbz2-dev
+  - sh: sudo apt-get --yes install liblzma-dev
   - cmake.exe -G "%GENERATOR%" -DCMAKE_BUILD_TYPE=%CONFIGURATION% %APPVEYOR_BUILD_FOLDER%
 
 build_script:

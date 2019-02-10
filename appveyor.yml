@@ -44,7 +44,7 @@ before_build:
   - if exist zlib rmdir /s /q zlib
   - git clone https://github.com/katahiromz/zlib
   - cd zlib
-  - cmake -G "%GENERATOR%" -DCMAKE_BUILD_TYPE=%CONFIGURATION% -DCMAKE_GENERATOR_PLATFORM=%PLATFORM% .
+  - cmake -DCMAKE_BUILD_TYPE=%CONFIGURATION% -DCMAKE_GENERATOR_PLATFORM=%PLATFORM% .
   - cmake --build . --target INSTALL --config Release
   - set PATH=%PATH%;C:/Program Files/zlib/bin;C:/Program Files (x86)/zlib/bin
   - set INCLUDE=%INCLUDE%;C:/Program Files/zlib/include;C:/Program Files (x86)/zlib/include

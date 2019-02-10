@@ -84,7 +84,7 @@
         static uint8_t outbuf[COMP_DECOMP_BUFFSIZE];
 
         lzma_stream strm = LZMA_STREAM_INIT;
-        lzma_ret ret = lzma_stream_decoder(&strm, UINT64_MAX, LZMA_IGNORE_CHECK);
+        lzma_ret ret = lzma_stream_decoder(&strm, UINT64_MAX, LZMA_CONCATENATED);
 
         strm.next_in = NULL;
         strm.avail_in = 0;

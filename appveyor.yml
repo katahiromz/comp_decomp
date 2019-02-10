@@ -1,4 +1,5 @@
 image: Visual Studio 2017
+build: off
 platform: 
   x64
 skip_commits:

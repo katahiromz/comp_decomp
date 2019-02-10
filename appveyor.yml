@@ -34,9 +34,7 @@ before_build:
   - set CTEST_OUTPUT_ON_FAILURE=1
   - set ZLIB_VER_DOT=1.2.8
   - ps: >-
-    If (!(Test-Path zlib.zip )) {
-      appveyor DownloadFile "https://github.com/madler/zlib/archive/v${env:ZLIB_VER_DOT}.zip" -FileName zlib.zip
-    }
+    appveyor DownloadFile "https://github.com/madler/zlib/archive/v${env:ZLIB_VER_DOT}.zip" -FileName "zlib.zip"
     7z x zlib.zip -oC:\
     Rename-Item -path "c:\zlib-${env:ZLIB_VER_DOT}" -newName "zlib"
   - ps: >-

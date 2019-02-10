@@ -126,6 +126,27 @@
         return (ret == LZMA_STREAM_END);
     }
 
+    inline bool lzma_test_entry(const std::string& original)
+    {
+        std::string encoded, decoded;
+        if (!lzma_compress(encoded, original.c_str(), original.size()))
+        {
+            printf("lzma_compress failed\n");
+            return false;
+        }
+        if (!lzma_decompress(decoded, encoded.c_str(), encoded.size()))
+        {
+            printf("lzma_decompress failed\n");
+            return false;
+        }
+        if (!(original == decoded))
+        {
+            printf("lzma mismatch\n");
+            return false;
+        }
+        return true;
+    }
+
     inline bool lzma_test(void)
     {
         std::string original, encoded, decoded;
@@ -138,21 +159,8 @@
             {
                 original[k] = (char)(std::rand() & 0xFF);
             }
-            if (!lzma_compress(encoded, original.c_str(), original.size()))
-            {
-                printf("lzma_compress failed\n");
+            if (!lzma_test_entry(original))
                 return false;
-            }
-            if (!lzma_decompress(decoded, encoded.c_str(), encoded.size()))
-            {
-                printf("lzma_decompress failed\n");
-                return false;
-            }
-            if (!(original == decoded))
-            {
-                printf("lzma mismatch\n");
-                return false;
-            }
         }
         for (size_t i = 0; i < 20; ++i)
         {
@@ -162,21 +170,8 @@
             {
                 original[k] = (char)(std::rand() & 0xFF);
             }
-            if (!lzma_compress(encoded, original.c_str(), original.size()))
-            {
-                printf("lzma_compress failed\n");
+            if (!lzma_test_entry(original))
                 return false;
-            }
-            if (!lzma_decompress(decoded, encoded.c_str(), encoded.size()))
-            {
-                printf("lzma_decompress failed\n");
-                return false;
-            }
-            if (!(original == decoded))
-            {
-                printf("lzma mismatch\n");
-                return false;
-            }
         }
         return true;
     }

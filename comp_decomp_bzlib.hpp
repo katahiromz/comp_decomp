@@ -121,9 +121,30 @@
         return BZ2_bzDecompressEnd(&strm) == Z_OK;
     }
 
+    inline bool bzlib_test_entry(const std::string& original)
+    {
+        std::string encoded, decoded;
+        if (!bzlib_compress(encoded, original.c_str(), original.size()))
+        {
+            printf("bzlib_compress failed\n");
+            return false;
+        }
+        if (!bzlib_decompress(decoded, encoded.c_str(), encoded.size()))
+        {
+            printf("bzlib_decompress failed\n");
+            return false;
+        }
+        if (!(original == decoded))
+        {
+            printf("bzlib mismatch\n");
+            return false;
+        }
+        return true;
+    }
+
     inline bool bzlib_test(void)
     {
-        std::string original, encoded, decoded;
+        std::string original;
         for (size_t len = COMP_DECOMP_MIN_TEST;
              len < COMP_DECOMP_MAX_TEST;
              len += COMP_DECOMP_TEST_STEP)
@@ -133,45 +154,15 @@
             {
                 original[k] = (char)(std::rand() & 0xFF);
             }
-            if (!bzlib_compress(encoded, original.c_str(), original.size()))
-            {
-                printf("bzlib_compress failed\n");
+            if (!bzlib_test_entry(original))
                 return false;
-            }
-            if (!bzlib_decompress(decoded, encoded.c_str(), encoded.size()))
-            {
-                printf("bzlib_decompress failed\n");
-                return false;
-            }
-            if (!(original == decoded))
-            {
-                printf("bzlib mismatch\n");
-                return false;
-            }
         }
         for (size_t i = 0; i < 20; ++i)
         {
             int len = COMP_DECOMP_MIN_TEST + std::rand() % (COMP_DECOMP_MAX_TEST - COMP_DECOMP_MIN_TEST);
             original.resize(len);
-            for (size_t k = 0; k < len; ++k)
-            {
-                original[k] = (char)(std::rand() & 0xFF);
-            }
-            if (!bzlib_compress(encoded, original.c_str(), original.size()))
-            {
-                printf("bzlib_compress failed\n");
+            if (!bzlib_test_entry(original))
                 return false;
-            }
-            if (!bzlib_decompress(decoded, encoded.c_str(), encoded.size()))
-            {
-                printf("bzlib_decompress failed\n");
-                return false;
-            }
-            if (!(original == decoded))
-            {
-                printf("bzlib mismatch\n");
-                return false;
-            }
         }
         return true;
     }

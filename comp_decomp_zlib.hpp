@@ -131,6 +131,27 @@
         return inflateEnd(&strm) == Z_OK;
     }
 
+    inline bool zlib_test_entry(const std::string& original)
+    {
+        std::string encoded, decoded;
+        if (!zlib_compress(encoded, original.c_str(), original.size()))
+        {
+            printf("zlib_compress failed\n");
+            return false;
+        }
+        if (!zlib_decompress(decoded, encoded.c_str(), encoded.size()))
+        {
+            printf("zlib_decompress failed\n");
+            return false;
+        }
+        if (!(original == decoded))
+        {
+            printf("zlib mismatch\n");
+            return false;
+        }
+        return true;
+    }
+
     inline bool zlib_test(void)
     {
         std::string original, encoded, decoded;
@@ -143,21 +164,8 @@
             {
                 original[k] = (char)(std::rand() & 0xFF);
             }
-            if (!zlib_compress(encoded, original.c_str(), original.size()))
-            {
-                printf("zlib_compress failed\n");
+            if (!zlib_test_entry(original))
                 return false;
-            }
-            if (!zlib_decompress(decoded, encoded.c_str(), encoded.size()))
-            {
-                printf("zlib_decompress failed\n");
-                return false;
-            }
-            if (!(original == decoded))
-            {
-                printf("zlib mismatch\n");
-                return false;
-            }
         }
         for (size_t i = 0; i < 20; ++i)
         {
@@ -167,21 +175,8 @@
             {
                 original[k] = (char)(std::rand() & 0xFF);
             }
-            if (!zlib_compress(encoded, original.c_str(), original.size()))
-            {
-                printf("zlib_compress failed\n");
+            if (!zlib_test_entry(original))
                 return false;
-            }
-            if (!zlib_decompress(decoded, encoded.c_str(), encoded.size()))
-            {
-                printf("zlib_decompress failed\n");
-                return false;
-            }
-            if (!(original == decoded))
-            {
-                printf("zlib mismatch\n");
-                return false;
-            }
         }
         return true;
     }

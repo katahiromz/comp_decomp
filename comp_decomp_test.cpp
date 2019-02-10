@@ -1,9 +1,9 @@
 // compress_test.hpp
 // Copyright (C) 2019 Katayama Hirofumi MZ <katayama.hirofumi.mz@gmail.com>
 // License: MIT
-#include <cassert>
 #include <thread>
 #include <chrono>
+#include <ctime>
 #define COMP_DECOMP_BUFFSIZE 100
 #define COMP_DECOMP_COMPRESSION_RATE 9
 #include "comp_decomp.hpp"
@@ -11,18 +11,28 @@
 namespace cr = std::chrono;
 typedef cr::high_resolution_clock my_clock;
 
+inline void init_rand_gen(void)
+{
+    std::srand((unsigned)std::hash<std::thread::id>()(std::this_thread::get_id()));
+}
+
 #ifdef HAVE_ZLIB
 void f1(void)
 {
+    init_rand_gen();
+    printf("rand(): %d\n", std::rand());
+
     auto time1 = my_clock::now();
     bool ret = zlib_test();
     auto time2 = my_clock::now();
     auto diff = time2 - time1;
     auto ms = cr::duration_cast<cr::milliseconds>(diff);
+
     if (ret)
         printf("zlib success (%ld ms)\n", (long)ms.count());
     else
         printf("zlib failed\n");
+
     fflush(stdout);
 }
 #endif
@@ -30,15 +40,20 @@ void f1(void)
 #ifdef HAVE_BZLIB
 void f2(void)
 {
+    init_rand_gen();
+    printf("rand(): %d\n", std::rand());
+
     auto time1 = my_clock::now();
     bool ret = bzlib_test();
     auto time2 = my_clock::now();
     auto diff = time2 - time1;
     auto ms = cr::duration_cast<cr::milliseconds>(diff);
+
     if (ret)
         printf("bzlib success (%ld ms)\n", (long)ms.count());
     else
         printf("bzlib failed\n");
+
     fflush(stdout);
 }
 #endif
@@ -46,15 +61,20 @@ void f2(void)
 #ifdef HAVE_LZMA
 void f3(void)
 {
+    init_rand_gen();
+    printf("rand(): %d\n", std::rand());
+
     auto time1 = my_clock::now();
     bool ret = lzma_test();
     auto time2 = my_clock::now();
     auto diff = time2 - time1;
     auto ms = cr::duration_cast<cr::milliseconds>(diff);
+
     if (ret)
         printf("lzma success (%ld ms)\n", (long)ms.count());
     else
         printf("lzma failed\n");
+
     fflush(stdout);
 }
 #endif

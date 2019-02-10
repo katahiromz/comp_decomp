@@ -32,9 +32,9 @@ configuration:
 
 before_build:
   - set CTEST_OUTPUT_ON_FAILURE=1
-  - nuget restore
   - if "%PLATFORM%"=="x86" nuget install zlib-msvc14-x86 -Version 1.2.11.7795
   - if "%PLATFORM%"=="x64" nuget install zlib-msvc14-x64 -Version 1.2.11.7795
+  - nuget restore comp_decomp
   - cmake.exe -G "%GENERATOR%" -DCMAKE_BUILD_TYPE=%CONFIGURATION% %APPVEYOR_BUILD_FOLDER%
 
 build_script:

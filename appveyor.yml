@@ -85,7 +85,7 @@ before_build:
   - set CMAKE_PREFIX_PATH=%CMAKE_PREFIX_PATH%;C:/Program Files/xz/lib/cmake/xz;C:/Program Files (x86)/xz/lib/cmake/xz
   - cd ..
 
-  - cmake DCMAKE_TOOLCHAIN_FILE=c:/tools/vcpkg/scripts/buildsystems/vcpkg.cmake -G "%GENERATOR%" -DCMAKE_BUILD_TYPE=%CONFIGURATION% %APPVEYOR_BUILD_FOLDER%
+  - cmake -DCMAKE_TOOLCHAIN_FILE=c:/tools/vcpkg/scripts/buildsystems/vcpkg.cmake -G "%GENERATOR%" -DCMAKE_BUILD_TYPE=%CONFIGURATION% %APPVEYOR_BUILD_FOLDER%
 
 build_script:
   - cmake --build . --config %CONFIGURATION%

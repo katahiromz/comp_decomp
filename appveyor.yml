@@ -14,22 +14,22 @@ environment:
       BUILDER: CMake
       GENERATOR: "Visual Studio 15 2017"
       APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2017
-      tbs_tools: "msvc15"
+      tbs_tools: "msvc12"
     - PLATFORM: x64
       BUILDER: CMake
       GENERATOR: "Visual Studio 15 2017 Win64"
       APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2017
-      tbs_tools: "msvc15"
+      tbs_tools: "msvc12"
     - PLATFORM: x86
       BUILDER: CMake
       GENERATOR: "Visual Studio 14 2015"
       APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
-      tbs_tools: "msvc14"
+      tbs_tools: "msvc12"
     - PLATFORM: x64
       BUILDER: CMake
       GENERATOR: "Visual Studio 14 2015 Win64"
       APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
-      tbs_tools: "msvc14"
+      tbs_tools: "msvc12"
 configuration:
   - Debug
   - Release

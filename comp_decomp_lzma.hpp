@@ -5,6 +5,7 @@
 #define COMP_DECOMP_LZMA_HPP_
 
 #include <cstdlib>
+#include <cstdio>
 #include <string>
 
 #ifndef COMP_DECOMP_BUFFSIZE
@@ -27,6 +28,7 @@
 
 // bool lzma_compress(std::string& output, const void *input, size_t input_size);
 // bool lzma_decompress(std::string& output, const void *input, size_t input_size);
+// bool lzma_test(void);   // unit test
 
 #ifdef HAVE_LZMA
     #include <lzma.h>

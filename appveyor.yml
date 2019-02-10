@@ -37,16 +37,22 @@ before_build:
   - cd zlib
   - cmake .
   - cmake --build . --target INSTALL
+  - set INCLUDE=%INCLUDE%;C:/Program Files/zlib/include;C:/Program Files (x86)/zlib/include
+  - set LIB=%LIB%;C:/Program Files/zlib/lib;C:/Program Files (x86)/zlib/lib
   - cd ..
   - git clone https://github.com/katahiromz/bzip2_cmake
   - cd bzip2_cmake
   - cmake .
   - cmake --build . --target INSTALL
+  - set INCLUDE=%INCLUDE%;C:/Program Files/bzip2/include;C:/Program Files (x86)/bzip2/include
+  - set LIB=%LIB%;C:/Program Files/bzip2/lib;C:/Program Files (x86)/bzip2/lib
   - cd ..
   - git clone https://github.com/katahiromz/xz
   - cd xz
   - cmake .
   - cmake --build . --target INSTALL
+  - set INCLUDE=%INCLUDE%;C:/Program Files/xz/include;C:/Program Files (x86)/xz/include
+  - set LIB=%LIB%;C:/Program Files/xz/lib;C:/Program Files (x86)/xz/lib
   - cd ..
   - cmake -G "%GENERATOR%" -DCMAKE_BUILD_TYPE=%CONFIGURATION% %APPVEYOR_BUILD_FOLDER%
 

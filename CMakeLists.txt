@@ -6,6 +6,9 @@
 # CMake minimum version
 cmake_minimum_required(VERSION 2.4)
 
+# enable testing
+enable_testing()
+
 # project name and language
 project(comp_decomp CXX)
 
@@ -96,5 +99,9 @@ add_executable(comp_decomp_test comp_decomp_test.cpp)
 target_link_libraries(
     comp_decomp_test
     ${ZLIB_LIBRARIES} ${BZIP2_LIBRARIES} ${LIBLZMA_LIBRARIES})
+
+# add test
+add_test(NAME comp_decomp_test
+         COMMAND $<TARGET_FILE:comp_decomp_test>)
 
 ##############################################################################

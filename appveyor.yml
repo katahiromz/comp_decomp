@@ -46,6 +46,7 @@ before_build:
   - cmake --build . --target INSTALL
   - set INCLUDE=%INCLUDE%;C:/Program Files/bzip2/include;C:/Program Files (x86)/bzip2/include
   - set LIB=%LIB%;C:/Program Files/bzip2/lib;C:/Program Files (x86)/bzip2/lib
+  - set CMAKE_PREFIX_PATH=%CMAKE_PREFIX_PATH%;C:/Program Files/bzip2/share/bzip2/cmake;C:/Program Files (x86)/bzip2/share/bzip2/cmake
   - cd ..
   - git clone https://github.com/katahiromz/xz
   - cd xz
@@ -53,6 +54,7 @@ before_build:
   - cmake --build . --target INSTALL
   - set INCLUDE=%INCLUDE%;C:/Program Files/xz/include;C:/Program Files (x86)/xz/include
   - set LIB=%LIB%;C:/Program Files/xz/lib;C:/Program Files (x86)/xz/lib
+  - set CMAKE_PREFIX_PATH=%CMAKE_PREFIX_PATH%;C:/Program Files/xz/lib/cmake/xz/;C:/Program Files (x86)/xz/lib/cmake/xz/
   - cd ..
   - cmake -G "%GENERATOR%" -DCMAKE_BUILD_TYPE=%CONFIGURATION% %APPVEYOR_BUILD_FOLDER%
 

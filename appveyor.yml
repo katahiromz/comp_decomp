@@ -37,6 +37,7 @@ before_build:
   - cd zlib
   - cmake .
   - cmake --build . --target INSTALL
+  - set PATH=%PATH%;C:/Program Files/zlib/bin;C:/Program Files (x86)/zlib/bin/
   - set INCLUDE=%INCLUDE%;C:/Program Files/zlib/include;C:/Program Files (x86)/zlib/include
   - set LIB=%LIB%;C:/Program Files/zlib/lib;C:/Program Files (x86)/zlib/lib
   - cd ..
@@ -54,7 +55,7 @@ before_build:
   - cmake --build . --target INSTALL
   - set INCLUDE=%INCLUDE%;C:/Program Files/xz/include;C:/Program Files (x86)/xz/include
   - set LIB=%LIB%;C:/Program Files/xz/lib;C:/Program Files (x86)/xz/lib
-  - set CMAKE_PREFIX_PATH=%CMAKE_PREFIX_PATH%;C:/Program Files/xz/lib/cmake/xz/;C:/Program Files (x86)/xz/lib/cmake/xz/
+  - set CMAKE_PREFIX_PATH=%CMAKE_PREFIX_PATH%;C:/Program Files/xz/lib/cmake/xz;C:/Program Files (x86)/xz/lib/cmake/xz
   - cd ..
   - cmake -G "%GENERATOR%" -DCMAKE_BUILD_TYPE=%CONFIGURATION% %APPVEYOR_BUILD_FOLDER%
 

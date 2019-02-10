@@ -1,3 +1,6 @@
+// compress_test.hpp
+// Copyright (C) 2019 Katayama Hirofumi MZ <katayama.hirofumi.mz@gmail.com>
+// License: MIT
 #include <cassert>
 #include <thread>
 #include <chrono>

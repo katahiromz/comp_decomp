@@ -1,3 +1,6 @@
+// comp_decomp_bzlib.hpp
+// Copyright (C) 2019 Katayama Hirofumi MZ <katayama.hirofumi.mz@gmail.com>
+// License: MIT
 #ifndef COMP_DECOMP_BZLIB_HPP_
 #define COMP_DECOMP_BZLIB_HPP_
 

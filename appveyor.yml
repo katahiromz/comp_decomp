@@ -33,18 +33,18 @@ configuration:
 before_build:
   - set CTEST_OUTPUT_ON_FAILURE=1
   - set PATH=%PATH:C:\Program Files (x86)\Git\bin;=%.
-  - git clone https://github.com/madler/zlib
+  - git clone https://github.com/katahiromz/zlib
   - cd zlib
   - cmake .
   - cmake --build . --target INSTALL
   - cd ..
-  - git clone https://github.com/osrf/bzip2_cmake
+  - git clone https://github.com/katahiromz/bzip2_cmake
   - cd bzip2_cmake
   - cmake .
   - cmake --build . --target INSTALL
   - cd ..
-  - git clone https://github.com/lloyd/easylzma
-  - cd easylzma
+  - git clone https://github.com/katahiromz/xz
+  - cd xz
   - cmake .
   - cmake --build . --target INSTALL
   - cd ..

@@ -36,21 +36,12 @@ configuration:
 before_build:
   - cmake --version
 
-  # Set Targets path so that gitlink works correctly
-  - ps: $env:MSBUILDDIR=((Get-Command msbuild.exe).Path | Split-Path -parent)
-  - ps: >-
-      if ($env:MSVC_VER -eq 15) {
-          $env:VCTargetsPath="$env:MSBUILDDIR\..\..\..\Common7\IDE\VC\VCTargets"
-      } else {
-          $env:VCTargetsPath="$env:MSBUILDDIR\..\..\..\Microsoft.Cpp\v4.0\V${env:MSVC_VER}0"
-      }
-
   - set CTEST_OUTPUT_ON_FAILURE=1
   - set PATH=%PATH:C:\Program Files (x86)\Git\bin;=%.
 
   - git clone https://github.com/katahiromz/zlib
   - cd zlib
-  - cmake -DCMAKE_GENERATOR_PLATFORM=%PLATFORM% .
+  - cmake -G "%GENERATOR%" -DCMAKE_BUILD_TYPE=%CONFIGURATION% -DCMAKE_GENERATOR_PLATFORM=%PLATFORM% .
   - cmake --build . --target INSTALL --config Release
   - set PATH=%PATH%;C:/Program Files/zlib/bin;C:/Program Files (x86)/zlib/bin
   - set INCLUDE=%INCLUDE%;C:/Program Files/zlib/include;C:/Program Files (x86)/zlib/include
@@ -59,7 +50,7 @@ before_build:
 
   - git clone https://github.com/katahiromz/bzip2_cmake
   - cd bzip2_cmake
-  - cmake -DCMAKE_GENERATOR_PLATFORM=%PLATFORM% .
+  - cmake -G "%GENERATOR%" -DCMAKE_BUILD_TYPE=%CONFIGURATION% -DCMAKE_GENERATOR_PLATFORM=%PLATFORM% .
   - cmake --build . --target INSTALL --config Release
   - set INCLUDE=%INCLUDE%;C:/Program Files/bzip2/include;C:/Program Files (x86)/bzip2/include
   - set LIB=%LIB%;C:/Program Files/bzip2/lib;C:/Program Files (x86)/bzip2/lib
@@ -68,7 +59,7 @@ before_build:
 
   - git clone https://github.com/katahiromz/xz
   - cd xz
-  - cmake -DCMAKE_GENERATOR_PLATFORM=%PLATFORM% .
+  - cmake -G "%GENERATOR%" -DCMAKE_BUILD_TYPE=%CONFIGURATION% -DCMAKE_GENERATOR_PLATFORM=%PLATFORM% .
   - cmake --build . --target INSTALL --config Release
   - set INCLUDE=%INCLUDE%;C:/Program Files/xz/include;C:/Program Files (x86)/xz/include
   - set LIB=%LIB%;C:/Program Files/xz/lib;C:/Program Files (x86)/xz/lib

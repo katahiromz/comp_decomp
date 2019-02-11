@@ -139,21 +139,17 @@
     {
         switch (ret)
         {
+        case Z_OK: return "success (Z_OK)";
         case Z_ERRNO:
             if (ferror(stdin))
                 return "error reading stdin (Z_ERRNO)";
             if (ferror(stdout))
                 return "error writing stdout (Z_ERRNO)";
-        case Z_STREAM_ERROR:
-            return "invalid compression level (Z_STREAM_ERROR)";
-        case Z_DATA_ERROR:
-            return "invalid or incomplete deflate data (Z_DATA_ERROR)";
-        case Z_MEM_ERROR:
-            return "out of memory (Z_MEM_ERROR)";
-        case Z_VERSION_ERROR:
-            return "zlib version mismatch! (Z_VERSION_ERROR)";
-        case Z_OK:
-            return "success (Z_OK)";
+            return "error writing file (Z_ERRNO)";
+        case Z_STREAM_ERROR: return "invalid compression level (Z_STREAM_ERROR)";
+        case Z_DATA_ERROR: return "invalid or incomplete deflate data (Z_DATA_ERROR)";
+        case Z_MEM_ERROR: return "out of memory (Z_MEM_ERROR)";
+        case Z_VERSION_ERROR: return "zlib version mismatch! (Z_VERSION_ERROR)";
         }
         return "unknown error";
     }

@@ -129,7 +129,7 @@
     {
         switch (ret)
         {
-        case BZ_OK: return "success";
+        case BZ_OK: return "success (BZ_OK)";
         case BZ_SEQUENCE_ERROR: return "sequence error (BZ_SEQUENCE_ERROR)";
         case BZ_PARAM_ERROR: return "parameter error (BZ_PARAM_ERROR)";
         case BZ_MEM_ERROR: return "insufficient memory (BZ_MEM_ERROR)";

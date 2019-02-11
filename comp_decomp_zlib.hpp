@@ -14,17 +14,17 @@
     #define COMP_DECOMP_BUFFSIZE (8 * 1024)
 #endif
 
-// int zlib_comp(std::string& output, const void *input, size_t input_size, int rate = 9);
-// int zlib_decomp(std::string& output, const void *input, size_t input_size);
+// int zlib_comp(std::string& output, const void *input, uInt input_size, int rate = 9);
+// int zlib_decomp(std::string& output, const void *input, uInt input_size);
 // bool zlib_unittest(void);
 
 #ifdef HAVE_ZLIB
     #include <zlib.h>
 
-    inline int zlib_comp(std::string& output, const void *input, size_t input_size, int rate = 9)
+    inline int zlib_comp(std::string& output, const void *input, uInt input_size, int rate = 9)
     {
         const Bytef *ptr = (const Bytef *)input;
-        size_t remainder = input_size;
+        uInt remainder = input_size;
         assert(1 <= rate && rate <= 9);
 
         output.clear();
@@ -78,10 +78,10 @@
         return deflateEnd(&strm);
     }
 
-    inline int zlib_decomp(std::string& output, const void *input, size_t input_size)
+    inline int zlib_decomp(std::string& output, const void *input, uInt input_size)
     {
         const Bytef *ptr = (const Bytef *)input;
-        size_t remainder = input_size;
+        uInt remainder = input_size;
 
         output.clear();
         output.reserve(input_size * 3 / 2);
@@ -137,12 +137,12 @@
     inline bool zlib_test_entry(const std::string& original)
     {
         std::string encoded, decoded;
-        if (Z_OK != zlib_comp(encoded, original.c_str(), original.size()))
+        if (Z_OK != zlib_comp(encoded, original.c_str(), (uInt)original.size()))
         {
             printf("zlib_comp failed\n");
             return false;
         }
-        if (Z_OK != zlib_decomp(decoded, encoded.c_str(), encoded.size()))
+        if (Z_OK != zlib_decomp(decoded, encoded.c_str(), (uInt)encoded.size()))
         {
             printf("zlib_decomp failed\n");
             return false;

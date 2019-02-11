@@ -14,14 +14,17 @@
     #define COMP_DECOMP_BUFFSIZE (8 * 1024)
 #endif
 
-// int bzlib_comp(std::string& output, const void *input, size_t input_size, int rate = 9);
-// int bzlib_decomp(std::string& output, const void *input, size_t input_size);
+// int bzlib_comp(std::string& output, const void *input,
+//                unsigned int input_size, int rate = 9);
+// int bzlib_decomp(std::string& output, const void *input,
+//                  unsigned int input_size);
 // bool bzlib_unittest(void);
 
 #ifdef HAVE_BZLIB
     #include <bzlib.h>
 
-    inline int bzlib_comp(std::string& output, const void *input, size_t input_size, int rate = 9)
+    inline int bzlib_comp(std::string& output, const void *input,
+                          unsigned input_size, int rate = 9)
     {
         output.clear();
         output.reserve(input_size * 2 / 3);
@@ -74,7 +77,8 @@
         return BZ2_bzCompressEnd(&strm);
     }
 
-    inline int bzlib_decomp(std::string& output, const void *input, size_t input_size)
+    inline int bzlib_decomp(std::string& output, const void *input,
+                            unsigned int input_size)
     {
         output.clear();
         output.reserve(input_size * 3 / 2);
@@ -93,7 +97,7 @@
 
         output.resize(COMP_DECOMP_BUFFSIZE);
         strm.next_out  = (char *)(output.data());
-        strm.avail_out = output.size();
+        strm.avail_out = (unsigned)output.size();
 
         ret = BZ_OK;
         while (ret == BZ_OK || ret == BZ_FLUSH_OK || ret == BZ_FINISH_OK)
@@ -123,12 +127,12 @@
     inline bool bzlib_test_entry(const std::string& original)
     {
         std::string encoded, decoded;
-        if (BZ_OK != bzlib_comp(encoded, original.c_str(), original.size()))
+        if (BZ_OK != bzlib_comp(encoded, original.c_str(), (unsigned)original.size()))
         {
             printf("bzlib_comp failed\n");
             return false;
         }
-        if (BZ_OK != bzlib_decomp(decoded, encoded.c_str(), encoded.size()))
+        if (BZ_OK != bzlib_decomp(decoded, encoded.c_str(), (unsigned)encoded.size()))
         {
             printf("bzlib_decomp failed\n");
             return false;

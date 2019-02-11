@@ -33,13 +33,13 @@ environment:
       APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
       MSVC_VER: 14
 configuration:
-  #- Debug
+  - Debug
   - Release
 install:
-  - cd C:\tools\vcpkg
-  - git pull
-  - .\bootstrap-vcpkg.bat
-  - cd %APPVEYOR_BUILD_FOLDER%
+  #- cd C:\tools\vcpkg
+  #- git pull
+  #- .\bootstrap-vcpkg.bat
+  #- cd %APPVEYOR_BUILD_FOLDER%
 before_build:
   - cmake --version
 

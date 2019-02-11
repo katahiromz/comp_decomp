@@ -52,19 +52,12 @@ before_build:
   - if %MSVC_VER%==14 if %PLATFORM%==x64 call "C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\vcvarsall.bat" x86
   - if %MSVC_VER%==14 if %PLATFORM%==x64 call "C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\vcvarsall.bat" x86_amd64
 
-  - if %CONFIGURATION%==Debug if %PLATFORM%==x86 vcpkg install zlib:x86-windows-dbg
-  - if %CONFIGURATION%==Debug if %PLATFORM%==x64 vcpkg install zlib:x64-windows-dbg
-  - if %CONFIGURATION%==Debug if %PLATFORM%==x86 vcpkg install bzip2:x86-windows-dbg
-  - if %CONFIGURATION%==Debug if %PLATFORM%==x64 vcpkg install bzip2:x64-windows-dbg
-  - if %CONFIGURATION%==Debug if %PLATFORM%==x86 vcpkg install liblzma:x86-windows-dbg
-  - if %CONFIGURATION%==Debug if %PLATFORM%==x64 vcpkg install liblzma:x64-windows-dbg
-
-  - if %CONFIGURATION%==Release if %PLATFORM%==x86 vcpkg install zlib:x86-windows-rel
-  - if %CONFIGURATION%==Release if %PLATFORM%==x64 vcpkg install zlib:x64-windows-rel
-  - if %CONFIGURATION%==Release if %PLATFORM%==x86 vcpkg install bzip2:x86-windows-rel
-  - if %CONFIGURATION%==Release if %PLATFORM%==x64 vcpkg install bzip2:x64-windows-rel
-  - if %CONFIGURATION%==Release if %PLATFORM%==x86 vcpkg install liblzma:x86-windows-rel
-  - if %CONFIGURATION%==Release if %PLATFORM%==x64 vcpkg install liblzma:x64-windows-rel
+  - if %PLATFORM%==x86 vcpkg install zlib:x86-windows
+  - if %PLATFORM%==x64 vcpkg install zlib:x64-windows
+  - if %PLATFORM%==x86 vcpkg install bzip2:x86-windows
+  - if %PLATFORM%==x64 vcpkg install bzip2:x64-windows
+  - if %PLATFORM%==x86 vcpkg install liblzma:x86-windows
+  - if %PLATFORM%==x64 vcpkg install liblzma:x64-windows
 
   - vcpkg integrate install
 

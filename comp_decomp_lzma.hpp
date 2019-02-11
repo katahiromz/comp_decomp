@@ -14,14 +14,16 @@
     #define COMP_DECOMP_BUFFSIZE (8 * 1024)
 #endif
 
-// lzma_ret lzma_comp(std::string& output, const void *input, size_t input_size, int rate = 9);
+// lzma_ret lzma_comp(std::string& output, const void *input,
+//                    size_t input_size, int rate = 9);
 // lzma_ret lzma_decomp(std::string& output, const void *input, size_t input_size);
 // bool lzma_unittest(void);
 
 #ifdef HAVE_LZMA
     #include <lzma.h>
 
-    inline lzma_ret lzma_comp(std::string& output, const void *input, size_t input_size, int rate = 9)
+    inline lzma_ret lzma_comp(std::string& output, const void *input,
+                              size_t input_size, int rate = 9)
     {
         const uint8_t *ptr = (const uint8_t *)input;
         size_t remainder = input_size;
@@ -77,7 +79,8 @@
         return ret;
     }
 
-    inline lzma_ret lzma_decomp(std::string& output, const void *input, size_t input_size)
+    inline lzma_ret lzma_decomp(std::string& output, const void *input,
+                                size_t input_size)
     {
         const uint8_t *ptr = (const uint8_t *)input;
         size_t remainder = input_size;
@@ -173,7 +176,7 @@
 
         for (size_t i = 0; i < COMP_DECOMP_TEST_COUNT; ++i)
         {
-            int len = std::rand() % COMP_DECOMP_MAX_TEST;
+            size_t len = std::rand() % COMP_DECOMP_MAX_TEST;
             original.resize(len);
             for (size_t k = 0; k < len; ++k)
             {

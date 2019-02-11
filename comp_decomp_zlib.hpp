@@ -174,7 +174,7 @@
 
         for (size_t i = 0; i < COMP_DECOMP_TEST_COUNT; ++i)
         {
-            int len = std::rand() % COMP_DECOMP_MAX_TEST;
+            size_t len = std::rand() % COMP_DECOMP_MAX_TEST;
             original.resize(len);
             for (size_t k = 0; k < len; ++k)
             {

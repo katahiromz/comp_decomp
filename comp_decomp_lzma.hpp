@@ -14,14 +14,14 @@
     #define COMP_DECOMP_BUFFSIZE (8 * 1024)
 #endif
 
-// bool lzma_compress(std::string& output, const void *input, size_t input_size, int rate = 9);
-// bool lzma_decompress(std::string& output, const void *input, size_t input_size);
+// lzma_ret lzma_comp(std::string& output, const void *input, size_t input_size, int rate = 9);
+// lzma_ret lzma_decomp(std::string& output, const void *input, size_t input_size);
 // bool lzma_unittest(void);
 
 #ifdef HAVE_LZMA
     #include <lzma.h>
 
-    inline bool lzma_compress(std::string& output, const void *input, size_t input_size, int rate = 9)
+    inline lzma_ret lzma_comp(std::string& output, const void *input, size_t input_size, int rate = 9)
     {
         const uint8_t *ptr = (const uint8_t *)input;
         size_t remainder = input_size;
@@ -34,6 +34,8 @@
 
         lzma_stream strm = LZMA_STREAM_INIT;
         lzma_ret ret = lzma_easy_encoder(&strm, rate, LZMA_CHECK_CRC64);
+        if (ret != LZMA_OK)
+            return ret;
 
         strm.next_in = NULL;
         strm.avail_in = 0;
@@ -70,10 +72,12 @@
         }
 
         lzma_end(&strm);
-        return ret == LZMA_STREAM_END;
+        if (ret == LZMA_STREAM_END)
+            ret = LZMA_OK;
+        return ret;
     }
 
-    inline bool lzma_decompress(std::string& output, const void *input, size_t input_size)
+    inline lzma_ret lzma_decomp(std::string& output, const void *input, size_t input_size)
     {
         const uint8_t *ptr = (const uint8_t *)input;
         size_t remainder = input_size;
@@ -85,6 +89,8 @@
 
         lzma_stream strm = LZMA_STREAM_INIT;
         lzma_ret ret = lzma_stream_decoder(&strm, UINT64_MAX, LZMA_CONCATENATED);
+        if (ret != LZMA_OK)
+            return ret;
 
         strm.next_in = NULL;
         strm.avail_in = 0;
@@ -122,20 +128,22 @@
         }
 
         lzma_end(&strm);
-        return (ret == LZMA_STREAM_END);
+        if (ret == LZMA_STREAM_END)
+            ret = LZMA_OK;
+        return ret;
     }
 
     inline bool lzma_test_entry(const std::string& original)
     {
         std::string encoded, decoded;
-        if (!lzma_compress(encoded, original.c_str(), original.size()))
+        if (LZMA_OK != lzma_comp(encoded, original.c_str(), original.size()))
         {
-            printf("lzma_compress failed\n");
+            printf("lzma_comp failed\n");
             return false;
         }
-        if (!lzma_decompress(decoded, encoded.c_str(), encoded.size()))
+        if (LZMA_OK != lzma_decomp(decoded, encoded.c_str(), encoded.size()))
         {
-            printf("lzma_decompress failed\n");
+            printf("lzma_decomp failed\n");
             return false;
         }
         if (!(original == decoded))

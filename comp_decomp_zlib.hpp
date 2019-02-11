@@ -14,14 +14,14 @@
     #define COMP_DECOMP_BUFFSIZE (8 * 1024)
 #endif
 
-// bool zlib_compress(std::string& output, const void *input, size_t input_size, int rate = 9);
-// bool zlib_decompress(std::string& output, const void *input, size_t input_size);
+// int zlib_comp(std::string& output, const void *input, size_t input_size, int rate = 9);
+// int zlib_decomp(std::string& output, const void *input, size_t input_size);
 // bool zlib_unittest(void);
 
 #ifdef HAVE_ZLIB
     #include <zlib.h>
 
-    inline bool zlib_compress(std::string& output, const void *input, size_t input_size, int rate = 9)
+    inline int zlib_comp(std::string& output, const void *input, size_t input_size, int rate = 9)
     {
         const Bytef *ptr = (const Bytef *)input;
         size_t remainder = input_size;
@@ -38,6 +38,8 @@
         strm.zfree = Z_NULL;
         strm.opaque = Z_NULL;
         int ret = deflateInit(&strm, rate);
+        if (ret != Z_OK)
+            return ret;
 
         strm.next_in = NULL;
         strm.avail_in = 0;
@@ -73,10 +75,10 @@
             }
         }
 
-        return deflateEnd(&strm) == Z_OK;
+        return deflateEnd(&strm);
     }
 
-    inline bool zlib_decompress(std::string& output, const void *input, size_t input_size)
+    inline int zlib_decomp(std::string& output, const void *input, size_t input_size)
     {
         const Bytef *ptr = (const Bytef *)input;
         size_t remainder = input_size;
@@ -92,6 +94,8 @@
         strm.zfree = Z_NULL;
         strm.opaque = Z_NULL;
         int ret = inflateInit(&strm);
+        if (ret != Z_OK)
+            return ret;
 
         strm.next_in = NULL;
         strm.avail_in = 0;
@@ -127,20 +131,20 @@
             }
         }
 
-        return inflateEnd(&strm) == Z_OK;
+        return inflateEnd(&strm);
     }
 
     inline bool zlib_test_entry(const std::string& original)
     {
         std::string encoded, decoded;
-        if (!zlib_compress(encoded, original.c_str(), original.size()))
+        if (Z_OK != zlib_comp(encoded, original.c_str(), original.size()))
         {
-            printf("zlib_compress failed\n");
+            printf("zlib_comp failed\n");
             return false;
         }
-        if (!zlib_decompress(decoded, encoded.c_str(), encoded.size()))
+        if (Z_OK != zlib_decomp(decoded, encoded.c_str(), encoded.size()))
         {
-            printf("zlib_decompress failed\n");
+            printf("zlib_decomp failed\n");
             return false;
         }
         if (!(original == decoded))

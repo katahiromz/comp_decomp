@@ -14,14 +14,14 @@
     #define COMP_DECOMP_BUFFSIZE (8 * 1024)
 #endif
 
-// bool bzlib_compress(std::string& output, const void *input, size_t input_size, int rate = 9);
-// bool bzlib_decompress(std::string& output, const void *input, size_t input_size);
+// int bzlib_comp(std::string& output, const void *input, size_t input_size, int rate = 9);
+// int bzlib_decomp(std::string& output, const void *input, size_t input_size);
 // bool bzlib_unittest(void);
 
 #ifdef HAVE_BZLIB
     #include <bzlib.h>
 
-    inline bool bzlib_compress(std::string& output, const void *input, size_t input_size, int rate = 9)
+    inline int bzlib_comp(std::string& output, const void *input, size_t input_size, int rate = 9)
     {
         output.clear();
         output.reserve(input_size * 2 / 3);
@@ -38,7 +38,7 @@
 
         int ret = BZ2_bzCompressInit(&strm, rate, 0, 0);
         if (ret != BZ_OK)
-            return false;
+            return ret;
 
         output.resize(COMP_DECOMP_BUFFSIZE);
         strm.next_out = (char *)output.data();
@@ -67,14 +67,14 @@
         {
             BZ2_bzCompressEnd(&strm);
             output.clear();
-            return false;
+            return ret;
         }
 
         output.resize(output.size() - strm.avail_out);
-        return BZ2_bzCompressEnd(&strm) == BZ_OK;
+        return BZ2_bzCompressEnd(&strm);
     }
 
-    inline bool bzlib_decompress(std::string& output, const void *input, size_t input_size)
+    inline int bzlib_decomp(std::string& output, const void *input, size_t input_size)
     {
         output.clear();
         output.reserve(input_size * 3 / 2);
@@ -89,7 +89,7 @@
         strm.avail_in = input_size;
         int ret = BZ2_bzDecompressInit(&strm, 0, 0);
         if (ret != BZ_OK)
-            return false;
+            return ret;
 
         output.resize(COMP_DECOMP_BUFFSIZE);
         strm.next_out  = (char *)(output.data());
@@ -112,25 +112,25 @@
         {
             output.clear();
             BZ2_bzDecompressEnd(&strm);
-            return false;
+            return ret;
         }
 
         output.resize(output.size() - strm.avail_out);
 
-        return BZ2_bzDecompressEnd(&strm) == BZ_OK;
+        return BZ2_bzDecompressEnd(&strm);
     }
 
     inline bool bzlib_test_entry(const std::string& original)
     {
         std::string encoded, decoded;
-        if (!bzlib_compress(encoded, original.c_str(), original.size()))
+        if (BZ_OK != bzlib_comp(encoded, original.c_str(), original.size()))
         {
-            printf("bzlib_compress failed\n");
+            printf("bzlib_comp failed\n");
             return false;
         }
-        if (!bzlib_decompress(decoded, encoded.c_str(), encoded.size()))
+        if (BZ_OK != bzlib_decomp(decoded, encoded.c_str(), encoded.size()))
         {
-            printf("bzlib_decompress failed\n");
+            printf("bzlib_decomp failed\n");
             return false;
         }
         if (!(original == decoded))

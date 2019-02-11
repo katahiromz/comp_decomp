@@ -15,6 +15,8 @@ inline void init_rand_gen(void)
     std::srand((unsigned)std::hash<std::thread::id>()(std::this_thread::get_id()));
 }
 
+bool g_flag = true;
+
 #ifdef HAVE_ZLIB
 void f1(void)
 {
@@ -28,9 +30,14 @@ void f1(void)
     auto ms = cr::duration_cast<cr::milliseconds>(diff);
 
     if (ret)
+    {
         printf("zlib success (%ld ms)\n", (long)ms.count());
+    }
     else
+    {
         printf("zlib failed\n");
+        g_flag = false;
+    }
 
     fflush(stdout);
 }
@@ -49,9 +56,14 @@ void f2(void)
     auto ms = cr::duration_cast<cr::milliseconds>(diff);
 
     if (ret)
+    {
         printf("bzlib success (%ld ms)\n", (long)ms.count());
+    }
     else
+    {
         printf("bzlib failed\n");
+        g_flag = false;
+    }
 
     fflush(stdout);
 }
@@ -70,9 +82,14 @@ void f3(void)
     auto ms = cr::duration_cast<cr::milliseconds>(diff);
 
     if (ret)
+    {
         printf("lzma success (%ld ms)\n", (long)ms.count());
+    }
     else
+    {
         printf("lzma failed\n");
+        g_flag = false;
+    }
 
     fflush(stdout);
 }
@@ -100,7 +117,16 @@ int main(void)
     t3.join();
 #endif
 
-    printf("done!\n");
     fflush(stdout);
-    return 0;
+
+    if (g_flag)
+    {
+        printf("done!\n");
+        return 0;
+    }
+    else
+    {
+        printf("failed!\n");
+        return 1;
+    }
 }

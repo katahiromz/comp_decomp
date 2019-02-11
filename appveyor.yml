@@ -39,8 +39,8 @@ configuration:
   - Release
 install:
   - cd C:\tools\vcpkg
-  - git pull
-  - .\bootstrap-vcpkg.bat
+  - if %PLATFORM==x86 if not exist C:\Tools\vcpkg\toolsrc\msbuild.x86.release\ git pull && .\bootstrap-vcpkg.bat
+  - if %PLATFORM==x64 if not exist C:\Tools\vcpkg\toolsrc\msbuild.x64.release\ git pull && .\bootstrap-vcpkg.bat
   - cd %APPVEYOR_BUILD_FOLDER%
 before_build:
   - cmake --version

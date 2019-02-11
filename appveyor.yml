@@ -6,7 +6,10 @@ skip_commits:
     - '*.md'
     - '.gitignore'
     - '.travis.yml'
-cache: c:\tools\vcpkg\installed\
+cache:
+    - C:\Tools\vcpkg\installed\
+    - C:\Tools\vcpkg\toolsrc\msbuild.x86.release\
+    - C:\Tools\vcpkg\toolsrc\msbuild.x64.release\
 matrix:
   fast_finish: true
 environment:

@@ -32,6 +32,7 @@ environment:
       APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
       MSVC_VER: 14
 configuration:
+  - Debug
   - Release
 install:
   - cd C:\tools\vcpkg

@@ -17,6 +17,7 @@
 // lzma_ret lzma_comp(std::string& output, const void *input,
 //                    size_t input_size, int rate = 9);
 // lzma_ret lzma_decomp(std::string& output, const void *input, size_t input_size);
+// const char *lzma_errmsg(lzma_ret ret);
 // bool lzma_unittest(void);
 
 #ifdef HAVE_LZMA
@@ -136,17 +137,37 @@
         return ret;
     }
 
+    inline const char *lzma_errmsg(lzma_ret ret)
+    {
+        switch (ret)
+        {
+        case LZMA_OK: return "Operation completed successfully (LZMA_OK)";
+        case LZMA_STREAM_END: return "End of stream was reached (LZMA_STREAM_END)";
+        case LZMA_NO_CHECK: return "Input stream has no integrity check (LZMA_NO_CHECK)";
+        case LZMA_UNSUPPORTED_CHECK: return "Cannot calculate the integrity check (LZMA_UNSUPPORTED_CHECK)";
+        case LZMA_GET_CHECK: return "Integrity check type is now available (LZMA_GET_CHECK)";
+        case LZMA_MEM_ERROR: return "Cannot allocate memory (LZMA_MEM_ERROR)";
+        case LZMA_MEMLIMIT_ERROR: return "Memory usage limit was reached (LZMA_MEMLIMIT_ERROR)";
+        case LZMA_FORMAT_ERROR: return "File format not recognized (LZMA_FORMAT_ERROR)";
+        case LZMA_OPTIONS_ERROR: return "Invalid or unsupported options (LZMA_OPTIONS_ERROR)";
+        case LZMA_DATA_ERROR: return "Data is corrupt (LZMA_DATA_ERROR)";
+        case LZMA_BUF_ERROR: return "No progress is possible (LZMA_BUF_ERROR)";
+        case LZMA_PROG_ERROR: return "Programming error (LZMA_PROG_ERROR)";
+        }
+        return "Unknown error";
+    }
+
     inline bool lzma_test_entry(const std::string& original)
     {
         std::string encoded, decoded;
-        if (LZMA_OK != lzma_comp(encoded, original.c_str(), original.size()))
+        if (lzma_ret ret = lzma_comp(encoded, original.c_str(), original.size()))
         {
-            printf("lzma_comp failed\n");
+            printf("lzma_comp failed: %s\n", lzma_errmsg(ret));
             return false;
         }
-        if (LZMA_OK != lzma_decomp(decoded, encoded.c_str(), encoded.size()))
+        if (lzma_ret ret = lzma_decomp(decoded, encoded.c_str(), encoded.size()))
         {
-            printf("lzma_decomp failed\n");
+            printf("lzma_decomp failed: %s\n", lzma_errmsg(ret));
             return false;
         }
         if (!(original == decoded))

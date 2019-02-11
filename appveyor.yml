@@ -8,8 +8,6 @@ skip_commits:
     - '.travis.yml'
 cache:
     - C:\Tools\vcpkg\installed\
-    - C:\Tools\vcpkg\toolsrc\msbuild.x86.release\
-    - C:\Tools\vcpkg\toolsrc\msbuild.x64.release\
 matrix:
   fast_finish: true
 environment:
@@ -39,8 +37,8 @@ configuration:
   - Release
 install:
   - cd C:\tools\vcpkg
-  - if %PLATFORM==x86 if not exist C:\Tools\vcpkg\toolsrc\msbuild.x86.release\ git pull && .\bootstrap-vcpkg.bat
-  - if %PLATFORM==x64 if not exist C:\Tools\vcpkg\toolsrc\msbuild.x64.release\ git pull && .\bootstrap-vcpkg.bat
+  - git pull
+  - .\bootstrap-vcpkg.bat
   - cd %APPVEYOR_BUILD_FOLDER%
 before_build:
   - cmake --version

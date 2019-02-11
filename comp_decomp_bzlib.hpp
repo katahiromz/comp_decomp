@@ -18,6 +18,7 @@
 //                unsigned int input_size, int rate = 9);
 // int bzlib_decomp(std::string& output, const void *input,
 //                  unsigned int input_size);
+// const char *bzlib_errmsg(int ret);
 // bool bzlib_unittest(void);
 
 #ifdef HAVE_BZLIB
@@ -124,17 +125,35 @@
         return BZ2_bzDecompressEnd(&strm);
     }
 
+    inline const char *bzlib_errmsg(int ret)
+    {
+        switch (ret)
+        {
+        case BZ_OK: return "success";
+        case BZ_SEQUENCE_ERROR: return "sequence error (BZ_SEQUENCE_ERROR)";
+        case BZ_PARAM_ERROR: return "parameter error (BZ_PARAM_ERROR)";
+        case BZ_MEM_ERROR: return "insufficient memory (BZ_MEM_ERROR)";
+        case BZ_DATA_ERROR: return "data error (BZ_DATA_ERROR)";
+        case BZ_DATA_ERROR_MAGIC: return "magic bytes error (BZ_DATA_ERROR_MAGIC)";
+        case BZ_IO_ERROR: return "io error (BZ_IO_ERROR)";
+        case BZ_UNEXPECTED_EOF: return "unexpected EOF (BZ_UNEXPECTED_EOF )";
+        case BZ_OUTBUFF_FULL: return "out buffer full (BZ_OUTBUFF_FULL)";
+        case BZ_CONFIG_ERROR: return "config error (BZ_CONFIG_ERROR)";
+        }
+        return "Unknown error";
+    }
+
     inline bool bzlib_test_entry(const std::string& original)
     {
         std::string encoded, decoded;
-        if (BZ_OK != bzlib_comp(encoded, original.c_str(), (unsigned)original.size()))
+        if (int ret = bzlib_comp(encoded, original.c_str(), (unsigned)original.size()))
         {
-            printf("bzlib_comp failed\n");
+            printf("bzlib_comp failed: %s\n", bzlib_errmsg(ret));
             return false;
         }
-        if (BZ_OK != bzlib_decomp(decoded, encoded.c_str(), (unsigned)encoded.size()))
+        if (int ret = bzlib_decomp(decoded, encoded.c_str(), (unsigned)encoded.size()))
         {
-            printf("bzlib_decomp failed\n");
+            printf("bzlib_decomp failed: %s\n", bzlib_errmsg(ret));
             return false;
         }
         if (!(original == decoded))
@@ -175,6 +194,6 @@
         }
         return true;
     }
-#endif  // def HAVE_BZLIB
+ #endif  // def HAVE_BZLIB
 
 #endif  // ndef COMP_DECOMP_BZLIB_HPP_

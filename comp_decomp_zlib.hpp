@@ -16,6 +16,7 @@
 
 // int zlib_comp(std::string& output, const void *input, uInt input_size, int rate = 9);
 // int zlib_decomp(std::string& output, const void *input, uInt input_size);
+// const char *zlib_errmsg(int ret);
 // bool zlib_unittest(void);
 
 #ifdef HAVE_ZLIB
@@ -134,17 +135,40 @@
         return inflateEnd(&strm);
     }
 
+    inline const char *zlib_errmsg(int ret)
+    {
+        switch (ret)
+        {
+        case Z_ERRNO:
+            if (ferror(stdin))
+                return "error reading stdin (Z_ERRNO)";
+            if (ferror(stdout))
+                return "error writing stdout (Z_ERRNO)";
+        case Z_STREAM_ERROR:
+            return "invalid compression level (Z_STREAM_ERROR)";
+        case Z_DATA_ERROR:
+            return "invalid or incomplete deflate data (Z_DATA_ERROR)";
+        case Z_MEM_ERROR:
+            return "out of memory (Z_MEM_ERROR)";
+        case Z_VERSION_ERROR:
+            return "zlib version mismatch! (Z_VERSION_ERROR)";
+        case Z_OK:
+            return "success (Z_OK)";
+        }
+        return "unknown error";
+    }
+
     inline bool zlib_test_entry(const std::string& original)
     {
         std::string encoded, decoded;
-        if (Z_OK != zlib_comp(encoded, original.c_str(), (uInt)original.size()))
+        if (int ret = zlib_comp(encoded, original.c_str(), (uInt)original.size()))
         {
-            printf("zlib_comp failed\n");
+            printf("zlib_comp failed: %s\n", zlib_errmsg(ret));
             return false;
         }
-        if (Z_OK != zlib_decomp(decoded, encoded.c_str(), (uInt)encoded.size()))
+        if (int ret = zlib_decomp(decoded, encoded.c_str(), (uInt)encoded.size()))
         {
-            printf("zlib_decomp failed\n");
+            printf("zlib_decomp failed: %s\n", zlib_errmsg(ret));
             return false;
         }
         if (!(original == decoded))

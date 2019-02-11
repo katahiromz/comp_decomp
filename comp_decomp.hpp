@@ -6,6 +6,7 @@
 
 // int zlib_comp(std::string& output, const void *input, uInt input_size, int rate = 9);
 // int zlib_decomp(std::string& output, const void *input, uInt input_size);
+// const char *zlib_errmsg(int ret);
 // bool zlib_unittest(void);
 #ifdef HAVE_ZLIB
     #include "comp_decomp_zlib.hpp"
@@ -15,6 +16,7 @@
 //                unsigned int input_size, int rate = 9);
 // int bzlib_decomp(std::string& output, const void *input,
 //                  unsigned int input_size);
+// const char *bzlib_errmsg(int ret);
 // bool bzlib_unittest(void);
 #ifdef HAVE_BZLIB
     #include "comp_decomp_bzlib.hpp"
@@ -22,6 +24,7 @@
 
 // lzma_ret lzma_comp(std::string& output, const void *input, size_t input_size, int rate = 9);
 // lzma_ret lzma_decomp(std::string& output, const void *input, size_t input_size);
+// const char *lzma_errmsg(lzma_ret ret);
 // bool lzma_unittest(void);
 #ifdef HAVE_LZMA
     #include "comp_decomp_lzma.hpp"
